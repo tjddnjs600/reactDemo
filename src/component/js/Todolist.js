@@ -30,16 +30,20 @@ class Todolist extends Component{
     }
 
     handleCreate = () => {
+        const {input, todos} = this.state;
 
-        debugger;
+        if(null == input.trim() || "" === input.trim()){
+            alert("할일 입력");
+            return;
+        }
 
-        axios.get('/api/todo/selectList')
+        axios.post('/api/todo/insertList',{text:input})
             .then( res => {
                 console.log("response");
                 console.log(res);
                 this.setState({
                     input: '',
-                    todos: res.data
+                    todos: todos.concat(res.data)
                 });
             }).catch(err => {
               console.log(err);
@@ -65,17 +69,36 @@ class Todolist extends Component{
             checked: !selected.checked
         }
 
-        this.setState({
-            todos: nextTodos
-        })
+        axios.post('/api/todo/insertList'
+            ,{id:nextTodos[index].id, text: nextTodos[index].text, checked:nextTodos[index].checked})
+            .then(res => {
+                console.log(res);
+                this.setState({
+                    todos: nextTodos
+                })
+            })
+            .catch(err => {
+                console.log(err);
+                alert("상태변경 실패");
+            })
+
     }
 
     handleRemove = (id) => {
         const {todos} = this.state;
-        
-        this.setState({
-            todos: todos.filter(arr => arr.id !== id)
-        })
+
+        axios.post('/api/todo/deleteList',{id:id})
+            .then(res => {
+                console.log(res);
+                if ("ok" === res.data){
+                    this.setState({
+                        todos: todos.filter(arr => arr.id !== id)
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     render() {
