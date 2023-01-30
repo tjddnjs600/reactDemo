@@ -2,18 +2,25 @@ import React, { Component } from 'react';
 import TodoListTemplate from "./TodoListTemplate";
 import Form from "./Form";
 import TodoItemList from "./TodoItemList";
+import axios from "axios";
+
 
 class Todolist extends Component{
 
-    id = 3 // 이미 0,1,2 가 존재하므로 3으로 설정
+    id = 0 // 이미 0,1,2 가 존재하므로 3으로 설정
 
     state = {
         input: '',
-        todos: [
-            { id: 0, text: ' 리액트 소개1', checked: false },
-            { id: 1, text: ' 리액트 소개2', checked: true },
-            { id: 2, text: ' 리액트 소개3', checked: false }
-        ]
+        todos: []
+    }
+
+    //component 형의 onload hook
+    componentDidMount() {
+        axios.get('/api/todo/selectList').then(res => {
+            this.setState({
+                todos:res.data
+            })
+        }).catch(err => {console.log(err)})
     }
 
     handleChange = (e) => {
@@ -23,15 +30,20 @@ class Todolist extends Component{
     }
 
     handleCreate = () => {
-        const { input, todos } = this.state;
-        this.setState({
-            input: '',
-            todos: todos.concat({
-                id : this.id++,
-                text : input,
-                checked: false
+
+        debugger;
+
+        axios.get('/api/todo/selectList')
+            .then( res => {
+                console.log("response");
+                console.log(res);
+                this.setState({
+                    input: '',
+                    todos: res.data
+                });
+            }).catch(err => {
+              console.log(err);
             })
-        });
     }
 
     handleKeyPress = (e) => {
