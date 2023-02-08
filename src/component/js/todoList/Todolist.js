@@ -4,7 +4,6 @@ import Form from "./Form";
 import TodoItemList from "./TodoItemList";
 import axios from "axios";
 
-
 class Todolist extends Component{
 
     id = 0 // 이미 0,1,2 가 존재하므로 3으로 설정
@@ -16,6 +15,7 @@ class Todolist extends Component{
 
     //component 형의 onload hook
     componentDidMount() {
+
         axios.get('/api/todo/selectList').then(res => {
             this.setState({
                 todos:res.data

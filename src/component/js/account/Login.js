@@ -38,7 +38,7 @@ const Login = () => {
                 console.log("로그인");
                 console.log(res);
                 if(res.data.msg == null || "" === res.data.msg){
-                    navi("/todo");
+                    navi("/todo", {state: {isBack : true}});
                 } else {
                     alert(res.data.msg);
                 }
