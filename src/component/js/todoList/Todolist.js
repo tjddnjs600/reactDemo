@@ -33,7 +33,7 @@ class Todolist extends Component{
         const {input, todos} = this.state;
 
         if(null == input.trim() || "" === input.trim()){
-            alert("할일 입력");
+            alert("할일을 입력하세요.");
             return;
         }
 
