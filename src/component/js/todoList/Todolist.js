@@ -52,7 +52,7 @@ class Todolist extends Component{
 
     handleKeyPress = (e) => {
         if(e.key === 'Enter') {
-            this.handleCreate();
+            //this.handleCreate();
         }
     }
 
